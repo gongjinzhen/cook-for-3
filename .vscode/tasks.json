@@ -1,0 +1,35 @@
+﻿{
+  "version": "2.0.0",
+  "presentation": {
+    "panel": "dedicated",
+    "group": "cook"
+  },
+  "tasks": [
+    {
+      "label": "Start Backend",
+      "type": "process",
+      "command": "node",
+      "args": ["server.js"],
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Frontend",
+      "type": "process",
+      "command": "node",
+      "args": ["node_modules/vite/bin/vite.js", "--host"],
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start All",
+      "dependsOn": ["Start Backend", "Start Frontend"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    }
+  ]
+}

@@ -32,7 +32,7 @@ router.get('/', auth, (req, res) => {
 router.get('/:id', auth, (req, res) => {
   const recipe = db.prepare("SELECT r.*, COALESCE(AVG(rt.score), 0) as avg_score FROM recipes r LEFT JOIN ratings rt ON rt.recipe_id = r.id WHERE r.id = ? GROUP BY r.id").get(req.params.id);
   if (!recipe) return res.status(404).json({ error: '菜谱不存在' });
-  const ratings = db.prepare("SELECT rt.*, u.nickname FROM ratings rt JOIN users u ON u.id = rt.recipe_id WHERE rt.recipe_id = ? ORDER BY rt.created_at DESC").all(req.params.id);
+  const ratings = db.prepare("SELECT rt.*, u.nickname FROM ratings rt JOIN users u ON u.id = rt.user_id WHERE rt.recipe_id = ? ORDER BY rt.created_at DESC").all(req.params.id);
   res.json({ ...recipe, ratings });
 });
 

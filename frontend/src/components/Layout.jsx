@@ -20,7 +20,7 @@ export default function Layout({ children }) {
   const initial = (user?.nickname || user?.username || '?').charAt(0);
 
   return (
-    <div>
+    <div style={{ backgroundImage: 'url(/bg.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', minHeight: '100vh' }}>
       <div style={{ maxWidth: 800, margin: '0 auto', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border)' }}>
         <span style={{ fontSize: 18, fontWeight: 700, color: 'var(--primary)' }}>🍳 给你做顿饭</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>

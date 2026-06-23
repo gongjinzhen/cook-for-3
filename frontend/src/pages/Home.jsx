@@ -35,7 +35,7 @@ export default function Home() {
   if (loading) return <p style={{ color: 'var(--text-light)' }}>加载中...</p>;
 
   return (
-    <div style={{ backgroundImage: 'url(/bg.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', minHeight: '100vh', padding: 16 }}>
+    <div style={{ padding: 16 }}>
       <div style={{ marginBottom: 20 }}>
         <h1 style={{ fontSize: 24, marginBottom: 4 }}>Hi, {user?.nickname || user?.username}👋</h1>
         <p style={{ color: 'var(--text-light)', fontSize: 14 }}>{isFoodie ? '今天想吃什么呢？' : '看看你的拿手好菜吧'}</p>

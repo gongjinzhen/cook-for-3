@@ -1,0 +1,6 @@
+﻿{
+    "task.allowAutoRun": true,
+    "terminal.integrated.automationProfile.windows": {
+        "path": "powershell.exe"
+    }
+}
