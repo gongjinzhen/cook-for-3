@@ -14,6 +14,7 @@ export const createRecipe = (formData) => api.post('/recipes', formData, { heade
 export const updateRecipe = (id, formData) => api.put('/recipes/' + id, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 export const deleteRecipe = (id) => api.delete('/recipes/' + id);
 export const createOrder = (data) => api.post('/orders', data);
+export const getPendingOrderCount = () => api.get('/orders/pending-count');
 export const getOrders = (role) => api.get('/orders?role=' + role);
 export const updateOrderStatus = (id, status) => api.put('/orders/' + id + '/status', { status });
 export const createRating = (data) => api.post('/ratings', data);

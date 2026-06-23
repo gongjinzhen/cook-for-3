@@ -19,6 +19,10 @@ export default function Home() {
     Promise.all([getRecipes(), getOrders(isFoodie ? '' : 'chef')])
       .then(([r, o]) => { setRecipes(r.data); setOrders(o.data); setLoading(false); })
       .catch(() => setLoading(false));
+    const iv = setInterval(() => {
+      getOrders(isFoodie ? '' : 'chef').then(r => setOrders(r.data)).catch(() => {});
+    }, 5000);
+    return () => clearInterval(iv);
   }, []);
 
   const recommend = recipes.length > 0 ? recipes.sort(() => Math.random() - 0.5).slice(0, 3) : [];

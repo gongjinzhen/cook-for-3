@@ -28,6 +28,7 @@ export default function RecipeDetail() {
       await createOrder({ recipe_id: recipe.id });
       showToast('点菜成功！等着吃' + recipe.name + '吧~');
       setOrdering(false);
+      setTimeout(() => navigate('/orders'), 800);
     } catch (err) { showToast(err.response?.data?.error || '点菜失败', 'error'); setOrdering(false); }
   };
 

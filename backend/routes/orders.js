@@ -22,6 +22,13 @@ router.post('/', auth, (req, res) => {
   res.json({ message: '点菜成功！等着吃吧~', recipe_name: recipe.name });
 });
 
+
+// 获取待处理订单数量（大厨用）
+router.get('/pending-count', auth, (req, res) => {
+  const result = db.prepare("SELECT COUNT(*) as cnt FROM orders o JOIN recipes r ON r.id = o.recipe_id WHERE o.chef_id = ? AND o.status = 'pending'").get(req.user.id);
+  res.json({ count: result ? result.cnt : 0 });
+});
+
 // 获取订单列表
 router.get('/', auth, (req, res) => {
   const isChef = req.query.role === 'chef';

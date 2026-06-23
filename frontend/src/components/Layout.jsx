@@ -1,11 +1,13 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { UserContext } from '../App';
-import { Home, BookOpen, PlusCircle, ClipboardList, BarChart3, LogOut, ChevronDown } from 'lucide-react';
+import { Home, BookOpen, PlusCircle, ClipboardList, BarChart3, LogOut, ChevronDown, Bell } from 'lucide-react';
 
 export default function Layout({ children }) {
   const { user, logout } = useContext(UserContext);
   const [showMenu, setShowMenu] = useState(false);
+  const [pendingCount, setPendingCount] = useState(0);
+  const [bell, setBell] = useState(false);
   const menuRef = useRef(null);
   const isChef = user?.role === 'chef';
 
@@ -69,7 +71,7 @@ export default function Layout({ children }) {
         <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}><Home size={22} /><span>首页</span></NavLink>
         <NavLink to="/recipes" className={({ isActive }) => isActive ? 'active' : ''}><BookOpen size={22} /><span>菜谱</span></NavLink>
         {isChef && <NavLink to="/add" className={({ isActive }) => isActive ? 'active' : ''}><PlusCircle size={22} /><span>上传</span></NavLink>}
-        <NavLink to="/orders" className={({ isActive }) => isActive ? 'active' : ''}><ClipboardList size={22} /><span>点单</span></NavLink>
+        <NavLink to="/orders" className={({ isActive }) => isActive ? 'active' : ''} style={{ position: 'relative' }}>{isChef && pendingCount > 0 && <span style={{ position: 'absolute', top: 0, right: 2, background: 'var(--primary)', color: '#fff', fontSize: 10, fontWeight: 700, borderRadius: '50%', width: 16, height: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{pendingCount > 99 ? '...' : pendingCount}</span>}<ClipboardList size={22} /><span>点单</span></NavLink>
         <NavLink to="/stats" className={({ isActive }) => isActive ? 'active' : ''}><BarChart3 size={22} /><span>统计</span></NavLink>
       </nav>
     </div>

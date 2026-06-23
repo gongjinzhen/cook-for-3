@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContext, UserContext } from '../App';
-import { getRecipes, deleteRecipe } from '../api';
+import { getRecipes, deleteRecipe, createOrder } from '../api';
 import { Star, Trash2, Edit3 } from 'lucide-react';
 
 export default function Recipes() {
@@ -12,10 +12,19 @@ export default function Recipes() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const isChef = user?.role === 'chef';
+  const isFoodie = user?.role === 'foodie';
 
   useEffect(() => { getRecipes().then(r => { setRecipes(r.data); setLoading(false); }).catch(() => setLoading(false)); }, []);
 
   const filtered = filter === 'all' ? recipes : recipes.filter(r => r.nutrition === filter || r.tags?.includes(filter));
+
+  const handleOrder = async (recipe, e) => {
+    e.stopPropagation();
+    try {
+      await createOrder({ recipe_id: recipe.id });
+      showToast('✅ 点单成功！等着吃' + recipe.name + '吧~');
+    } catch (err) { showToast(err.response?.data?.error || '点单失败', 'error'); }
+  };
 
   const handleDelete = async (id, e) => {
     e.stopPropagation();
@@ -65,6 +74,7 @@ export default function Recipes() {
                   <span><Star size={12} /> {Number(r.avg_score).toFixed(1)}</span>
                   <span>已做 {r.order_count || 0} 次</span>
                 </div>
+                {!isChef && <button className="btn btn-sm" style={{ background: 'var(--primary)', color: '#fff', border: 'none', borderRadius: 6, width: '100%', marginTop: 8, fontWeight: 600, cursor: 'pointer', fontSize: 12 }} onClick={(e) => handleOrder(r, e)}>点单</button>}
               </div>
             </div>
           ))}

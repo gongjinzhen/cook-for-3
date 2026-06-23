@@ -4,8 +4,8 @@
   "description": "后端服务 - 给你做顿饭",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node --watch server.js",
+    "dev": "node --watch server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
