@@ -46,7 +46,7 @@ export default function Home() {
       </div>
 
       {recommend.length > 0 && (
-        <div className="card" style={{ marginBottom: 20, background: 'linear-gradient(135deg, rgba(255,255,255,0.75), rgba(250,219,216,0.75))', backdropFilter: 'blur(4px)' }}>
+        <div className="card" style={{ marginBottom: 20, background: 'linear-gradient(135deg, rgba(255,255,255,0), rgba(250,219,216,0.5))', backdropFilter: 'blur(4px)' }}>
           <h2 style={{ fontSize: 16, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
             <Heart size={18} color="var(--primary)" /> 今日推荐
           </h2>

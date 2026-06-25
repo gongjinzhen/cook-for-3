@@ -68,7 +68,8 @@ export default function Layout({ children }) {
       </div>
       <div className="page">{children}</div>
       <nav className="nav">
-        <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}><Home size={22} /><span>首页</span></NavLink>
+        <NavLink to="/" end className={({ isActive }) => isActive ? "nav-item active" : "nav-item"
+        }><img src="/home.png" className="nav-icon" /></NavLink>
         <NavLink to="/recipes" className={({ isActive }) => isActive ? 'active' : ''}><BookOpen size={22} /><span>菜谱</span></NavLink>
         {isChef && <NavLink to="/add" className={({ isActive }) => isActive ? 'active' : ''}><PlusCircle size={22} /><span>上传</span></NavLink>}
         <NavLink to="/orders" className={({ isActive }) => isActive ? 'active' : ''} style={{ position: 'relative' }}>{isChef && pendingCount > 0 && <span style={{ position: 'absolute', top: 0, right: 2, background: 'var(--primary)', color: '#fff', fontSize: 10, fontWeight: 700, borderRadius: '50%', width: 16, height: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{pendingCount > 99 ? '...' : pendingCount}</span>}<ClipboardList size={22} /><span>点单</span></NavLink>
