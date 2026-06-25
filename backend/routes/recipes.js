@@ -25,7 +25,9 @@ function auth(req, res, next) {
 }
 
 router.get("/", auth, async (req, res) => {
-  const recipes =  await db.prepare("SELECT r.*, COALESCE(AVG(rt.score), 0) as avg_score, COUNT(DISTINCT o.id) as order_count FROM recipes r LEFT JOIN ratings rt ON rt.recipe_id = r.id LEFT JOIN orders o ON o.recipe_id = r.id WHERE r.status = \"active\" GROUP BY r.id ORDER BY r.created_at DESC").all();
+  const recipes = await db.prepare(
+    "SELECT r.*, COALESCE(AVG(rt.score), 0) as avg_score, COUNT(DISTINCT o.id) as order_count FROM recipes r LEFT JOIN ratings rt ON rt.recipe_id = r.id LEFT JOIN orders o ON o.recipe_id = r.id WHERE r.status = 'active' GROUP BY r.id ORDER BY r.created_at DESC"
+  ).all();
   res.json(recipes);
 });
 
@@ -62,7 +64,7 @@ router.put("/:id", auth, upload.single("cover"), async (req, res) => {
 router.delete("/:id", auth, async (req, res) => {
   const recipe =  await db.prepare("SELECT * FROM recipes WHERE id = ? AND user_id = ?").get(req.params.id, req.user.id);
   if (!recipe) return res.status(404).json({ error: "菜谱不存在或无权删除" });
-  await await db.prepare("UPDATE recipes SET status = \"deleted\" WHERE id = ?").run(req.params.id);
+  await await db.prepare("UPDATE recipes SET status = 'deleted' WHERE id = ?").run(req.params.id);
   res.json({ success: true });
 });
 
