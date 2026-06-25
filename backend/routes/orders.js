@@ -13,39 +13,38 @@ function auth(req, res, next) {
 }
 
 // 点菜
-router.post('/', auth, (req, res) => {
+router.post('/', auth, async (req, res) => {
   const { recipe_id, note } = req.body;
-  const recipe = db.prepare('SELECT * FROM recipes WHERE id = ? AND status = ?').get(recipe_id, 'active');
+  const recipe =  await db.prepare('SELECT * FROM recipes WHERE id = ? AND status = ?').get(recipe_id, 'active');
   if (!recipe) return res.status(404).json({ error: '菜谱不存在' });
-  const chef = db.prepare('SELECT * FROM users WHERE id = ?').get(recipe.user_id);
-  db.prepare('INSERT INTO orders (recipe_id, orderer_id, chef_id, note) VALUES (?, ?, ?, ?)').run(recipe_id, req.user.id, chef.id, note || '');
+  const chef =  await db.prepare('SELECT * FROM users WHERE id = ?').get(recipe.user_id); await db.prepare('INSERT INTO orders (recipe_id, orderer_id, chef_id, note) VALUES (?, ?, ?, ?)').run(recipe_id, req.user.id, chef.id, note || '');
   res.json({ message: '点菜成功！等着吃吧~', recipe_name: recipe.name });
 });
 
 
 // 获取待处理订单数量（大厨用）
-router.get('/pending-count', auth, (req, res) => {
-  const result = db.prepare("SELECT COUNT(*) as cnt FROM orders o JOIN recipes r ON r.id = o.recipe_id WHERE o.chef_id = ? AND o.status = 'pending'").get(req.user.id);
+router.get('/pending-count', auth, async (req, res) => {
+  const result =  await db.prepare("SELECT COUNT(*) as cnt FROM orders o JOIN recipes r ON r.id = o.recipe_id WHERE o.chef_id = ? AND o.status = 'pending'").get(req.user.id);
   res.json({ count: result ? result.cnt : 0 });
 });
 
 // 获取订单列表
-router.get('/', auth, (req, res) => {
+router.get('/', auth, async (req, res) => {
   const isChef = req.query.role === 'chef';
   const field = isChef ? 'chef_id' : 'orderer_id';
-  const orders = db.prepare("SELECT o.*, r.name as recipe_name, r.cover as recipe_cover, u.nickname as orderer_name FROM orders o JOIN recipes r ON r.id = o.recipe_id JOIN users u ON u.id = o.orderer_id WHERE o." + field + " = ? ORDER BY o.created_at DESC").all(req.user.id);
+  const orders =  await db.prepare("SELECT o.*, r.name as recipe_name, r.cover as recipe_cover, u.nickname as orderer_name FROM orders o JOIN recipes r ON r.id = o.recipe_id JOIN users u ON u.id = o.orderer_id WHERE o." + field + " = ? ORDER BY o.created_at DESC").all(req.user.id);
   res.json(orders);
 });
 
 // 更新订单状态
-router.put('/:id/status', auth, (req, res) => {
+router.put('/:id/status', auth, async (req, res) => {
   const { status } = req.body;
-  const order = db.prepare('SELECT * FROM orders WHERE id = ? AND chef_id = ?').get(req.params.id, req.user.id);
+  const order =  await db.prepare('SELECT * FROM orders WHERE id = ? AND chef_id = ?').get(req.params.id, req.user.id);
   if (!order) return res.status(404).json({ error: '订单不存在' });
   if (status === 'completed') {
-    db.prepare("UPDATE orders SET status = ?, completed_at = CURRENT_TIMESTAMP WHERE id = ?").run(status, req.params.id);
+    await await db.prepare("UPDATE orders SET status = ?, completed_at = CURRENT_TIMESTAMP WHERE id = ?").run(status, req.params.id);
   } else {
-    db.prepare("UPDATE orders SET status = ? WHERE id = ?").run(status, req.params.id);
+    await await db.prepare("UPDATE orders SET status = ? WHERE id = ?").run(status, req.params.id);
   }
   res.json({ success: true });
 });
