@@ -24,3 +24,5 @@ export const getOrders = (role) => api.get('/orders?role=' + role);
 export const updateOrderStatus = (id, status) => api.put('/orders/' + id + '/status', { status });
 export const createRating = (data) => api.post('/ratings', data);
 export const getRatingStats = () => api.get('/ratings/stats');
+export const register = (data) =>
+  api.post('/auth/register', data);

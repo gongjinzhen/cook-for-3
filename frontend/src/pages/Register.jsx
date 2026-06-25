@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { UserContext, ToastContext } from '../App';
-import { login } from '../api';
+import { register } from '../api';
 import { ChefHat, User, Lock, Smile } from 'lucide-react';
 
 export default function Register() {
@@ -20,17 +20,21 @@ export default function Register() {
     if (password.length < 4) return showToast('密码至少4个字符', 'error');
     setLoading(true);
     try {
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, nickname: nickname || username, role })
-      });
-      const data = await res.json();
-      if (!res.ok) return showToast(data.error || '注册失败', 'error');
-      localStorage.setItem('token', data.token);
-      setUser(data.user);
-      showToast('注册成功，' + data.user.nickname + '！');
-      navigate('/');
+      const response = await register({
+    username,
+    password,
+    nickname: nickname || username,
+    role
+  });
+
+  const data = response.data;
+
+  localStorage.setItem('token', data.token);
+  setUser(data.user);
+
+  showToast('注册成功，' + data.user.nickname + '！');
+
+  navigate('/');
     } catch (err) { showToast('注册失败', 'error'); }
     finally { setLoading(false); }
   };
