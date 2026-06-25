@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: cook-for-u-backend
+    runtime: node
+    repo: https://github.com/gongjinzhen/cook-for-3.git
+    branch: main
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_VERSION
+        value: 22
