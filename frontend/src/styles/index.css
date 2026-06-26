@@ -52,27 +52,32 @@ label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; c
 @keyframes slideDown { from { opacity: 0; transform: translateX(-50%) translateY(-20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
 .nav {
-  position: fixed;
-  bottom: 12px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
 
-  width: calc(100% - 24px);
-  max-width: 480px;
+    max-width: 480px;
+    margin: auto;
 
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+    padding: 5px 0;
 
-  padding: 10px 0;
+    background: rgba(255, 255, 255, 0.45);
 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  z-index: 100;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    border-radius: 22px;
+
+    border: 1px solid rgba(255,255,255,.35);
+
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+
+    z-index:100;
 }
 .nav-item {
   position: relative;
@@ -91,11 +96,25 @@ label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; c
   content: "";
   position: absolute;
   bottom: -6px;
-  width: 40px;
-  height: 10px;
-  background: radial-gradient(circle, rgba(255,180,120,0.4), transparent);
+  width: 70px;
+  height: 13px;
+  background: radial-gradient(circle, rgba(247, 215, 76, 0.6), transparent);
   filter: blur(6px);
   border-radius: 999px;
+}
+.nav-item.active::before{
+    content:"";
+
+    position:absolute;
+
+    top:4px;
+
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:#FFA726;
 }
 .nav a img {
   width: 40px;
