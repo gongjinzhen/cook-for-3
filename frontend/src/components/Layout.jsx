@@ -72,13 +72,39 @@ export default function Layout({ children }) {
         }><img src="/home.png" className="nav-icon" /></NavLink>
         <NavLink
   to="/recipes"
-  className={({ isActive }) => isActive ? 'active' : ''}
+  className={({ isActive }) =>
+    isActive ? "nav-item active" : "nav-item"
+  }
 >
   <img src="/caidan.png" className="nav-icon" alt="菜谱" />
 </NavLink>
         {isChef && <NavLink to="/add" className={({ isActive }) => isActive ? 'active' : ''}><PlusCircle size={22} /><span>上传</span></NavLink>}
-        <NavLink to="/orders" className={({ isActive }) => isActive ? 'active' : ''} style={{ position: 'relative' }}>{isChef && pendingCount > 0 && <span style={{ position: 'absolute', top: 0, right: 2, background: 'var(--primary)', color: '#fff', fontSize: 10, fontWeight: 700, borderRadius: '50%', width: 16, height: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{pendingCount > 99 ? '...' : pendingCount}</span>}<ClipboardList size={22} /><span>点单</span></NavLink>
-        <NavLink to="/stats" className={({ isActive }) => isActive ? 'active' : ''}><BarChart3 size={22} /><span>统计</span></NavLink>
+        <NavLink
+  to="/orders"
+  className={({ isActive }) =>
+    isActive ? "nav-item active" : "nav-item"
+  }
+>
+  {isChef && pendingCount > 0 && (
+    <span className="badge">
+      {pendingCount > 99 ? "99+" : pendingCount}
+    </span>
+  )}
+
+  <img
+    src="/lumei_diandan.png"
+    className="nav-icon"
+    alt="点单"
+  />
+</NavLink>
+        <NavLink
+  to="/stats"
+  className={({ isActive }) =>
+    isActive ? "nav-item active" : "nav-item"
+  }
+>
+  <img src="/wode.png" className="nav-icon" alt="统计" />
+</NavLink>
       </nav>
     </div>
   );
